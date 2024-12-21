@@ -1,0 +1,37 @@
+<table>
+    <thead>
+        <tr  cdkDropList cdkDropListOrientation="horizontal" 
+            (cdkDropListDropped)="onColumnDrop($event)"
+            (cdkDropListSorted)="onColumnSorted($event)"
+            >
+            @for (column of columns; track $index) {
+                <th [class]="column.className"  cdkDrag [cdkDragData]="column">
+                    {{column.title}}
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @defer () {
+            @for (item of data; track $index) {
+                <tr>
+                    @for (column of columns; track $index) {
+                        <td class="{{column.className}}">{{item[column.data]}}</td>
+                    }
+                </tr>
+            } @empty {
+                <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">No records found...</td>
+                </tr>
+            }
+        } @error {
+            <tr>
+                <td [attr.colspan]="columns.length" class="text-center">An error occurred...</td>
+            </tr>
+        } @loading {
+            <tr>
+                <td [attr.colspan]="columns.length" class="text-center">Loading...</td>
+            </tr>
+        }
+    </tbody>
+</table>

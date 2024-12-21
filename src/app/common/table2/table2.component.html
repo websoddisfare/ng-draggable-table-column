@@ -1,0 +1,19 @@
+<div class="table2" id="table2-{{id}}" cdkDropList cdkDropListOrientation="horizontal" 
+(cdkDropListDropped)="onColumnDrop($event)">
+    @for(column of columns; track $index;let coli = $index; let last = $last) {
+        <div class="tc" cdkDrag [cdkDragData]="column">
+            <div class="th" id="table2-{{id}}-col-{{coli}}-row-0" [ngStyle]="{height:getRowHeight(0), minHeight:minRowHeight}" cdkDragHandle>
+                {{column.title}}
+            </div>
+            @for (rowdata of column.rowDatas; track $index; let rowi = $index) {
+                <div class="td {{column.className}}" id="table2-{{id}}-col-{{coli}}-row-{{rowi+1}}" [ngStyle]="{height:getRowHeight(rowi+1), minHeight:minRowHeight}">
+                    @if (column.type=='image') {
+                        <img src="{{rowdata}}" />
+                    } @else {
+                        {{column?.render(rowdata)}}
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
